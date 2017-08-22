@@ -34,7 +34,7 @@ $('#filterButton').on('click', function () {
     // 이미지정보 가져오기
     var pixels = ctx.getImageData(0,0, canvas.width, canvas.height);
     //필터 입히기 
-    var filteredData = loveFilter(pixels);
+    var filteredData = greenFilter(pixels);
     // canvas에 필터 넣기
     ctx.putImageData(filteredData, 0 , 0);
 });
@@ -75,7 +75,7 @@ function grayscaleFilter(pixels){
     return pixels;
 }
 
-
+// 세피아 필터
 function sepiaFilter(pixels) {
     var d = pixels.data;
     for(var i =0; i< d.length; i+=4){
@@ -90,6 +90,8 @@ function sepiaFilter(pixels) {
     return pixels;
 }
 
+
+//핑크핑크한 filter
 function loveFilter(pixels){
     var d = pixels.data;
     for(var i = 0; i< d.length; i+=4){
@@ -103,6 +105,21 @@ function loveFilter(pixels){
     }
     return pixels;
 }
+
+function greenFilter(pixels){
+    var d = pixels.data;
+    for(var i = 0; i<d.length; i+=4){
+        var r = d[i];
+        var g = d[i+1];
+        var b = d[i+2];
+
+        d[i] = r*0.96 + g*0.1 + b*0.0;  //R
+        d[i+1] = r*0.2 + g*0.9 + b*0.1; //G
+        d[i+2] = r*0.2 + g*0.0 + b*0.8862; //B
+    }
+    return pixels;
+}
+
 
 
 

@@ -34,7 +34,7 @@ $('#filterButton').on('click', function () {
     // 이미지정보 가져오기
     var pixels = ctx.getImageData(0,0, canvas.width, canvas.height);
     //필터 입히기 
-    var filteredData = invertFilter(pixels);
+    var filteredData = loveFilter(pixels);
     // canvas에 필터 넣기
     ctx.putImageData(filteredData, 0 , 0);
 });
@@ -70,7 +70,40 @@ function grayscaleFilter(pixels){
         var b = d[i+2];
 
         var v = 0.2126*r + 0.7152*g + 0.0722*b; //보정값
-        d[i] = d[i+1] = d[i+2] = v
+        d[i] = d[i+1] = d[i+2]  = v
     }
     return pixels;
 }
+
+
+function sepiaFilter(pixels) {
+    var d = pixels.data;
+    for(var i =0; i< d.length; i+=4){
+        var r = d[i];
+        var g = d[i+1];
+        var b = d[i+2];
+
+        d[i] = r*0.3588 + g*0.7044 + b*0.1368;
+        d[i+1] = r*0.2990 + g*0.5870 + b*0.1140;
+        d[i+2] = r*0.2392 + g*0.4696 + b*0.0912;
+    }
+    return pixels;
+}
+
+function loveFilter(pixels){
+    var d = pixels.data;
+    for(var i = 0; i< d.length; i+=4){
+        var r = d[i];
+        var g = d[i+1];
+        var b = d[i+2];
+
+        d[i] = r*0.9 + g*0.05 + b*0.2; //R
+        d[i+1] = r*0.0 + g*0.9215 + b*0.0; //G
+        d[i+2] = r*0.0 + g*0.0 + b*0.9960; //B
+    }
+    return pixels;
+}
+
+
+
+ 

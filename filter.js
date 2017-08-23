@@ -14,8 +14,7 @@ function drawImageData(image) {
     console.log(ctx.getImageData(0,0, canvas.width, canvas.height));
 }
 
-//canvas 지우는 방법
-
+//canvas 에 올려논 image 지우기
 $('#clearButton').on('click', function(e){
     // ctx.clearRect(0,0,canvas.width, canvas.height);
     // ctx.restore();
@@ -40,7 +39,11 @@ $('#loadButton').on('change', function (e) {
     fileReader.readAsDataURL(file);
 });
 
-
+$('#alphaButton').on('click', function(){
+    var pixels = ctx.getImageData(0,0,canvas.width, canvas.height);
+    var filteredImage = alphaFilter(pixels,value);
+    ctx.putImageData(filteredImage,0,0);
+})
 
 $('#greenButton').on('click', function(){
     //이미지 정보 가져오기
@@ -60,6 +63,14 @@ $('#pinkButton').on('click', function(){
     ctx.putImageData(filteredImage,0,0)
 });
 
+function alphaFilter(pixels,value){
+    var d = pixels.data;
+    for(var i = 0; i<pixels.data.length; i+=4){
+        d[i+3] = value; //alpha
+    }
+    return pixels;
+}
+
 // 반전 필터
 function invertFilter(pixels) {
     var d = pixels.data;
@@ -71,6 +82,7 @@ function invertFilter(pixels) {
     }
     return pixels;
 }
+
 
 //밝게 해주는 필터
 function brightnessFilter (pixels, value){

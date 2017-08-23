@@ -14,6 +14,16 @@ function drawImageData(image) {
     console.log(ctx.getImageData(0,0, canvas.width, canvas.height));
 }
 
+//canvas 지우는 방법
+
+$('#clearButton').on('click', function(e){
+    // ctx.clearRect(0,0,canvas.width, canvas.height);
+    // ctx.restore();
+    var $file = $('#loadButton');
+     $file.wrap('<form>').closest('form').get(0).reset();
+     $file.unwrap();
+});
+
 // 사진 가져오는 버튼 눌렀을 때
 $('#loadButton').on('change', function (e) {
     var file = e.target.files[0];
@@ -30,13 +40,24 @@ $('#loadButton').on('change', function (e) {
     fileReader.readAsDataURL(file);
 });
 
-$('#filterButton').on('click', function () {
-    // 이미지정보 가져오기
-    var pixels = ctx.getImageData(0,0, canvas.width, canvas.height);
-    //필터 입히기 
-    var filteredData = greenFilter(pixels);
-    // canvas에 필터 넣기
-    ctx.putImageData(filteredData, 0 , 0);
+
+
+$('#greenButton').on('click', function(){
+    //이미지 정보 가져오기
+    var pixels = ctx.getImageData(0,0,canvas.width, canvas.height);
+    //필터 고르기
+    var filteredImage = greenFilter(pixels);
+    //필터 입히기
+    ctx.putImageData(filteredImage,0,0)
+});
+
+$('#pinkButton').on('click', function(){
+    //이미지 정보 가져오기 
+    var pixels = ctx.getImageData(0,0,canvas.width, canvas.height);
+    //필터고르기
+    var filteredImage = loveFilter(pixels);
+    //필터 입히기
+    ctx.putImageData(filteredImage,0,0)
 });
 
 // 반전 필터

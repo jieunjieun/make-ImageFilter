@@ -113,9 +113,9 @@ function greenFilter(pixels){
         var g = d[i+1];
         var b = d[i+2];
 
-        d[i] = r*0.96 + g*0.1 + b*0.0;  //R
-        d[i+1] = r*0.2 + g*0.9 + b*0.1; //G
-        d[i+2] = r*0.2 + g*0.0 + b*0.8862; //B
+        d[i] = r*0.9568 + g*0.0 + b*0.0;  //R
+        d[i+1] = r*0.0 + g*0.9803 + b*0.0; //G
+        d[i+2] = r*0.0 + g*0.0 + b*0.8941; //B
     }
     return pixels;
 }

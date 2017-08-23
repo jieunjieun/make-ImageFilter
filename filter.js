@@ -1,6 +1,7 @@
 var canvas = $('#canvas')[0];
 var ctx = canvas.getContext('2d');
- // canvas 랑 image 사이즈 맞춰줌
+
+ // canvas에 image 크기 맞춰서 들어가게 하는 함수
 function drawImageData(image) {
     image.height *= canvas.offsetWidth / image.width;
     image.width = canvas.offsetWidth;
@@ -10,11 +11,12 @@ function drawImageData(image) {
         image.height = canvas.offsetHeight;
     }
 
+
     ctx.drawImage(image, 0, 0, image.width, image.height);
     console.log(ctx.getImageData(0,0, canvas.width, canvas.height));
 }
 
-//canvas 에 올려논 image 지우기
+//canvas에 있는 image clear 하기
 $('#clearButton').on('click', function(e){
     // ctx.clearRect(0,0,canvas.width, canvas.height);
     // ctx.restore();
@@ -39,12 +41,15 @@ $('#loadButton').on('change', function (e) {
     fileReader.readAsDataURL(file);
 });
 
+
+//image가 투명한 필터버튼
 $('#alphaButton').on('click', function(){
     var pixels = ctx.getImageData(0,0,canvas.width, canvas.height);
-    var filteredImage = alphaFilter(pixels,value);
+    var filteredImage = alphaFilter(pixels,100);
     ctx.putImageData(filteredImage,0,0);
 })
 
+//image가 초록초록한 필터버튼
 $('#greenButton').on('click', function(){
     //이미지 정보 가져오기
     var pixels = ctx.getImageData(0,0,canvas.width, canvas.height);
@@ -54,6 +59,7 @@ $('#greenButton').on('click', function(){
     ctx.putImageData(filteredImage,0,0)
 });
 
+//image가 pink한 필터버튼
 $('#pinkButton').on('click', function(){
     //이미지 정보 가져오기 
     var pixels = ctx.getImageData(0,0,canvas.width, canvas.height);
@@ -63,6 +69,7 @@ $('#pinkButton').on('click', function(){
     ctx.putImageData(filteredImage,0,0)
 });
 
+//image가 투명한색이 됨
 function alphaFilter(pixels,value){
     var d = pixels.data;
     for(var i = 0; i<pixels.data.length; i+=4){
@@ -71,7 +78,7 @@ function alphaFilter(pixels,value){
     return pixels;
 }
 
-// 반전 필터
+//image 반전 필터
 function invertFilter(pixels) {
     var d = pixels.data;
     for(var i=0; i<pixels.data.length; i+=4 ){
@@ -84,7 +91,7 @@ function invertFilter(pixels) {
 }
 
 
-//밝게 해주는 필터
+//image 밝게 해주는 필터
 function brightnessFilter (pixels, value){
     var d = pixels.data; //픽셀 데이터 받아오기
     for(var i = 0; i<d.length; i+=4){
@@ -94,7 +101,7 @@ function brightnessFilter (pixels, value){
     }
     return pixels;
 }
-//흑백 핉터
+//image 흑백 핉터
 function grayscaleFilter(pixels){
     var d = pixels.data;
     for(var i = 0; i<d.length; i+=4){
@@ -108,7 +115,7 @@ function grayscaleFilter(pixels){
     return pixels;
 }
 
-// 세피아 필터
+// image 세피아 필터
 function sepiaFilter(pixels) {
     var d = pixels.data;
     for(var i =0; i< d.length; i+=4){
@@ -124,7 +131,7 @@ function sepiaFilter(pixels) {
 }
 
 
-//핑크핑크한 filter
+//image가 핑크핑크한 filter
 function loveFilter(pixels){
     var d = pixels.data;
     for(var i = 0; i< d.length; i+=4){
@@ -138,7 +145,7 @@ function loveFilter(pixels){
     }
     return pixels;
 }
-
+//image가 초록초록한 필터
 function greenFilter(pixels){
     var d = pixels.data;
     for(var i = 0; i<d.length; i+=4){
